@@ -1,26 +1,42 @@
 import usersRepository from "../repositories/usersRepository.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcrypt"
 
 const authController = {
 
-    async verifyUser(email) {
-        let user = await usersRepository.getByEmail(email);
+    async verificaUsuario(email) {
 
-        if (!user.length > 0) {
-            return user[0];
+        let usuario = await usersRepository.getOne(email)
+
+        if (usuario.length > 0) {
+            return usuario[0]
+        } else {
+            return null
         }
-        return null;
+
     },
 
-    async verifyLogin(request) { 
-        const { email, password } = request.body
+    async validaLogin(req) {
+        const { email, password } = req.body
 
-        let existUser = await this.verifyUser(email)
+        let existeUsuario = await this.verificaUsuario(email)
 
-        if (!existUser) {
-            return "Usuário não encontrado"
+        if (!existeUsuario) {
+            return "Usuario ou senha incorreta!"
+        }
+
+        let valida = await bcrypt.compare(password, existeUsuario.password)
+
+
+        if (!valida) {
+            return "Usuario ou senha incorreta!"
+        }
+
+
+        return "Autorizado"
+
+
     }
 
 }
 
-export default authController;
+export default authController

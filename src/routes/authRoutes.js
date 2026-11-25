@@ -2,7 +2,9 @@ import authController from "../controllers/authController.js"
 
 
 export default function authRoutes(fastify) {
-    fastify.post("/login", async (request) => {
-        return await authController.verifyLogin(request);
-    });
+
+    fastify.post("/login", async (req) =>{
+        return await authController.validaLogin(req)
+    })
+
 }

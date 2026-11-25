@@ -1,6 +1,7 @@
 import usersController from "../controllers/usersController.js";
 
 export default async function usersRoutes(fastify) {
+    
     fastify.get("/get", async () => {
         return await usersController.get()
     })
