@@ -14,7 +14,7 @@ const usersRepository = {
 
     async get() {
         return await db` 
-        SELECT * FROM users
+        SELECT id, name, age, email FROM users
         `    
     },
 
@@ -41,7 +41,7 @@ const usersRepository = {
             email = ${email},
             password = ${password}
         WHERE id = ${id} 
-        RETURNING *
+        RETURNING id, name, age, email
         `
     },
 
@@ -49,7 +49,7 @@ const usersRepository = {
         return await db`
         DELETE FROM users 
         WHERE id = ${id} 
-        RETURNING *
+        RETURNING id, name, age, email
         `
     }
     
